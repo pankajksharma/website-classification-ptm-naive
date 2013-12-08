@@ -1,5 +1,7 @@
 import json, MySQLdb
 from lib.mysql import connection
+from lib.model_creater import ModelCreator
+from lib.model_tester import ModelTester
 
 data_set = {
     'entertain'  : [],
@@ -33,10 +35,12 @@ for row in data :
     data_set[cat].append(row)    #Append 
     data_counts[cat] += 1
 
-true_cases = 0
+true_cases = 0.0
+all_cases = sum([v for v in data_counts.values()])
 for i in range(10):
+    print i
     model = ModelCreator(i, data_set, data_counts, 'dp')
     model.create()
     tester = ModelTester(i, data_set, data_counts, 'words')
     true_cases += tester.test()
-    print true_cases, data_counts
+print true_cases/all_cases

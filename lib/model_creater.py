@@ -3,30 +3,33 @@ class ModelCreator(object):
 	def __init__(self, occ, data_set, data_counts, item_type = 'dp'):
 		self.occ = occ
 		self.data_set = data_set
-		self.item_type = self.item_type
+		self.item_type = item_type
 		self.data_counts = data_counts
 		if occ == 0:
 			self.save()
 
 	def save(self):
-		f = open('../model/data.json', 'w')
-		f.write(self.data_counts)
+		print self.data_counts
+		f = open('model/data.json', 'w')
+		f.write(json.dumps(self.data_counts))
 		f.close()
 
 	def create(self):
 		for cat,count in self.data_counts.iteritems():
 			model = {}
-			for i in len(self.data_set[cat]):
-				if i not in range(self.occ/10*count, (self.occ+1)/10*count):
-					if item_type == 'dp':
+			for i in range(len(self.data_set[cat])):
+				begin = int(self.occ/10.0*count)
+                		end = int((self.occ+1)/10.0*count)
+				if i not in range(begin, end):
+					if self.item_type == 'dp':
 						dp = json.loads(self.data_set[cat][i][4])	#Use D patterns
-						self.update_occurence(model, dp)
-					elif item_type == 'word':
+						self.update_occurences(model, dp)
+					elif self.item_type == 'word':
 						sents = json.loads(self.data_set[cat][i][3])	#Use Words
 						self.update_occurences_word(model, sents)
-
-			f = open('../model/'+cat.lower()+'.json', 'w')
-			f.write(model])
+#			print model
+			f = open('model/'+cat.lower()+'.json', 'w')
+			f.write(json.dumps(model))
 			f.close()
 
 	def update_occurences_word(self, model, sents):
