@@ -79,6 +79,8 @@ class ModelTester(object):
 	                    			pc[cat]=pc[cat]*Decimal((1.0/words_count))
 	                		else:
 	                    			pc[cat]=pc[cat]*Decimal(((1.0+self.category_counts[cat][word])/words_count))
+	                    			print self.category_counts[cat][word]
       		category = max(pc, key=pc.get)
 		#print category      		
 		return category
+
