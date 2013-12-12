@@ -46,6 +46,6 @@ for type in TYPES:
         	for j in range(i):
             		model = ModelCreator(j, data_set, data_counts, type)
            		model.create()
-            		tester = ModelTester(j, data_set, data_counts, t, '%s-%s-%d'%(type, t, j))
+            		tester = ModelTester(j, data_set, data_counts, t, '%s/%s-%s-%d'%(RESULT_DIR, type, t, j))
             		true_cases += tester.test()
         	print i,true_cases/all_cases
