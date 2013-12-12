@@ -24,7 +24,7 @@ class ModelCreator(object):
 					if self.item_type == 'dp':
 						dp = json.loads(self.data_set[cat][i][4])	#Use D patterns
 						self.update_occurences(model, dp)
-					elif self.item_type == 'word':
+					elif self.item_type == 'words':
 						sents = json.loads(self.data_set[cat][i][3])	#Use Words
 						self.update_occurences_word(model, sents)
 #			print model

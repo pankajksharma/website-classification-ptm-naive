@@ -3,9 +3,10 @@ from decimal import Decimal
 MODEL_DIR = 'model/'
 
 class ModelTester(object):
-	def __init__(self, occ, data_set, data_counts, type='dp'):
+	def __init__(self, occ, data_set, data_counts, type='dp', filename=None):
 		self.occ = occ
 		self.type = type
+		self.filename = filename
 		self.data_set = data_set
 		self.data_counts = data_counts
 		self.cat_counts = json.load(open(MODEL_DIR+"data.json"))
@@ -23,6 +24,10 @@ class ModelTester(object):
 
 	def test(self):
 		true_cases = 0
+		if self.occ == 0:
+                        f = open(self.filename, 'w')
+                else:
+                        f = open(self.filename, 'a')
 		for cat, count in self.data_counts.iteritems():
 			begin = int(self.occ/10.0*count)
                 	end = int((self.occ+1)/10.0*count)
@@ -31,28 +36,33 @@ class ModelTester(object):
 				sents = json.loads(row[3])
 				dp = json.loads(row[4])
 				if self.type == 'dp':
-					if cat == self.get_probable_category_dp(dp):
+					pcat = self.get_probable_category_dp(dp)
+					if pcat == cat:
 						true_cases += 1
 				elif self.type == 'words':
-					if cat == self.get_probable_category_word(sents):
+					pcat = self.get_probable_category_word(sents)
+					if pcat == cat:					
 						true_cases += 1
 				else:
 					exit()
+				f.write(cat+' '+pcat+'\n')
+		f.close()
+		print true_cases, end-begin
 		return true_cases
 
 	def get_probable_category_dp(self, dp):
 		pc = {u'entertain':1.0,u'politics':1.0,u'econonics':1.0,u'sports':1.0,u'education':1.0,u'religion':1.0,u'health':1.0}
 		for category in self.categories:
-			words_in_category = sum([word_count for  word_count in self.category_counts[category]])
+			pc[category] = Decimal(10**1000)
+			words_in_category = sum([word_count for  word_count in self.category_counts[category].values()])
 			words_count = self.total_words + words_in_category
 			for w in dp:
 				word = str(w)
-                		if word not in category_counts[category]:
+                		if word not in self.category_counts[category]:
                     			pc[category]=pc[category]*Decimal((1.0/words_count))
                 		else:
-                   			pc[category]=pc[category]*Decimal(((1.0+category_counts[category][word])/words_count))
+                   			pc[category]=pc[category]*Decimal(((1.0+self.category_counts[category][word])/words_count))
       		category = max(pc, key=pc.get)
-		print category
       		return category
 
 	def get_probable_category_word(self, sents):

@@ -34,12 +34,13 @@ for row in data :
     cat = json.loads(row[2])[0]
     data_set[cat].append(row)    #Append 
     data_counts[cat] += 1
-for i in range(2,21):
-	true_cases = 0.0
-	all_cases = sum([v for v in data_counts.values()])
-	for j in range(i):
-    		model = ModelCreator(j, data_set, data_counts, 'dp')
-   		model.create()
-    		tester = ModelTester(j, data_set, data_counts, 'words', 'word-word'+str(i))
-    		true_cases += tester.test()
-	print i,true_cases/all_cases
+
+true_cases = 0.0
+all_cases = sum([v for v in data_counts.values()])
+for i in range(10):
+    print i
+    model = ModelCreator(i, data_set, data_counts, 'dp')
+    model.create()
+    tester = ModelTester(i, data_set, data_counts, 'words', 'dp-word')
+    true_cases += tester.test()
+print true_cases/all_cases
