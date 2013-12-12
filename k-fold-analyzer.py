@@ -30,9 +30,9 @@ for t in TYPES:
 					<th>k</th>
 				'''%(t, t1))
 		for cat in categories:
-			f1.write('\n<th>%s</th>'%cat)
-		f1.write('\n<th>total</th>\n</tr>\n</thead>\n<tbody>')
-		for i in range(2, 3):
+			f1.write('\n<th>%s</th>'%cat.title())
+		f1.write('\n<th>Total</th>\n</tr>\n</thead>\n<tbody>')
+		for i in range(2, 11):
 			f = open('%s/%s-%s-%d'%(RESULT_DIR, t, t1, i))
 			for cat in categories:
 				stats[cat] = 0
