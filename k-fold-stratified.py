@@ -40,7 +40,7 @@ for row in data :
 
 for type in TYPES:
     for t in TYPES:
-        for i in range(2, 11):
+        for i in range(3, 11):
         	true_cases = 0.0
         	all_cases = sum([v for v in data_counts.values()])
         	for j in range(i):
