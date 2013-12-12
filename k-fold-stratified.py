@@ -44,8 +44,8 @@ for type in TYPES:
         	true_cases = 0.0
         	all_cases = sum([v for v in data_counts.values()])
         	for j in range(i):
-            		model = ModelCreator(j, data_set, data_counts, type)
+            		model = ModelCreator(i, j, data_set, data_counts, type)
            		model.create()
-            		tester = ModelTester(j, data_set, data_counts, t, '%s/%s-%s-%d'%(RESULT_DIR, type, t, j))
+            		tester = ModelTester(i, j, data_set, data_counts, t, '%s/%s-%s-%d'%(RESULT_DIR, type, t, i))
             		true_cases += tester.test()
         	print i,true_cases/all_cases

@@ -3,7 +3,8 @@ from decimal import Decimal
 MODEL_DIR = 'model/'
 
 class ModelTester(object):
-	def __init__(self, occ, data_set, data_counts, type='dp', filename=None):
+	def __init__(self, k, occ, data_set, data_counts, type='dp', filename=None):
+		self.k = k*1.0
 		self.occ = occ
 		self.type = type
 		self.filename = filename
@@ -29,8 +30,8 @@ class ModelTester(object):
                 else:
                         f = open(self.filename, 'a')
 		for cat, count in self.data_counts.iteritems():
-			begin = int(self.occ/10.0*count)
-                	end = int((self.occ+1)/10.0*count)
+			begin = int(self.occ/self.k*count)
+                	end = int((self.occ+1)/self.k*count)
 			for row in self.data_set[cat][begin: end]:
 				cat = json.loads(row[2])[0]
 				sents = json.loads(row[3])

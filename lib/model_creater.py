@@ -1,6 +1,7 @@
 import json
 class ModelCreator(object):
-	def __init__(self, occ, data_set, data_counts, item_type = 'dp'):
+	def __init__(self, k, occ, data_set, data_counts, item_type = 'dp'):
+		self.k = k*1.0
 		self.occ = occ
 		self.data_set = data_set
 		self.item_type = item_type
@@ -18,8 +19,8 @@ class ModelCreator(object):
 		for cat,count in self.data_counts.iteritems():
 			model = {}
 			for i in range(len(self.data_set[cat])):
-				begin = int(self.occ/10.0*count)
-                		end = int((self.occ+1)/10.0*count)
+				begin = int(self.occ/self.k*count)
+                		end = int((self.occ+1)/self.k*count)
 				if i not in range(begin, end):
 					if self.item_type == 'dp':
 						dp = json.loads(self.data_set[cat][i][4])	#Use D patterns
